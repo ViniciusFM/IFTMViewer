@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="static/img/smiley.png" />
+    <title>IFTMViewer</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+        body {
+            width: 60%;
+            margin: auto;
+            font-family: "Roboto Serif", serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+            line-height: 1.5em;
+            font-variation-settings:
+                "wdth" 100,
+                "GRAD" 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        #file-input {
+            display: block;
+            margin: 10px 0px;
+            font-size: 12pt;
+            font-family: "Roboto Serif", serif;
+        }
+        #output-img {
+            display: none;
+            margin: auto;
+            padding: 10px;
+            margin-top: 32px;
+        }
+        a {
+            text-decoration: none;
+            color: #004977;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #007ac7;
+            border-bottom: 1px dashed black;
+        }
+    </style>
+</head>
+<body>
+    <h1>— Image Formatted as Text Map (IFTM) Viewer —</h1>
+    <p>Este é um visualizador simples para arquivos com a extensão ".iftm". Esses são arquivos de 
+        texto que armazenam informações como largura, altura, paleta de cores e mapeamento. O formato foi 
+        desenvolvido para auxiliar estudantes de <b>Edição de Imagens</b> na compreensão básica da criação e 
+        do processamento digital de arquivos de imagem. </p>
+    <p style="text-align: center; font-size: 10pt">Acesse o repositório do <a href="https://github.com/ViniciusFM/IFTMViewer" target="_blank">GitHub</a> para saber mais.</p>
+    <hr>
+    <label for="file-input">Escolha um arquivo IFTM para visualizar:</label>
+    <input type="file" id="file-input">
+    <hr>
+    <img id="output-img">
+    <script src="static/js/iftmviewer.js"></script>
+    <script>
+        document.getElementById('file-input').addEventListener('change', (e)=>{
+            const file = event.target.files[0];
+            if(!file) return;
+            setUpIFTMViewerFromFilepath(file, 'output-img', true, () => {
+                console.log('hello');
+                document.getElementById('output-img').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
