@@ -4,7 +4,7 @@ Image Formatted as Text Map Viewer (IFTMViewer)
 
 Este é um visualizador simples para arquivos com a extensão ".iftm". Esses são arquivos de texto que armazenam informações como largura, altura, paleta de cores e mapeamento. O formato foi desenvolvido para auxiliar estudantes de **Edição de Imagens** na compreensão básica da criação e do processamento digital de arquivos de imagem.
 
-Este projeto é implementado como um pequeno serviço em *flask*, para facilitar a integração a um servidor próprio já existente. Para fazer o IFTMViewer funcionar com o seu projeto independente, basta incorporar o script [iftmviewer.js](js/iftmviewer.js).
+Este projeto é implementado como um pequeno serviço em *flask*, para facilitar a integração a um servidor próprio já existente. Para fazer o IFTMViewer funcionar com o seu projeto independente, basta incorporar o script [iftmviewer.js](static/js/iftmviewer.js).
 
 Clique [aqui](https://iftmviewer.viniciusfm.pro.br/) para acessar o serviço de teste desta aplicação.
 
