@@ -144,7 +144,6 @@ class IFTMRenderer {
         c.remove();
     }
 }
-[20, 10, 5, 2]
 function setUpIFTMViewerFromFilepath(file, imgElemId, autoPixelSize=false,
             onreadycallback=null, errcallback=null) {
     const reader = new FileReader();
