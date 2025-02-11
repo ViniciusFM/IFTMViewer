@@ -3,12 +3,12 @@ class IFTMTextParseError extends Error {
         const lang = navigator.language || navigator.userLanguage;
         const msgs = {
             'pt-BR': {
-                0: 'Erro de análise da IFTM: formato inadequado.',
-                1: 'Erro de análise da IFTM: largura ou altura inválida.',
-                2: `Erro de análise da IFTM: ${extra} é um hexcode inválido de cor.`,
-                3: 'Erro de análise da IFTM: o tamanho do mapa da imagem está incorreto.',
-                4: `Erro de análise da IFTM: a cor ${extra} não está registrada.`,
-                5: `Erro de análise da IFTM: o índice ${extra} deve ser um valor inteiro (>0).`
+                0: 'Erro de análise do arquivo iftm: formato inadequado.',
+                1: 'Erro de análise do arquivo iftm: largura ou altura inválida.',
+                2: `Erro de análise do arquivo iftm: ${extra} é um hexcode inválido de cor.`,
+                3: 'Erro de análise do arquivo iftm: o tamanho do mapa da imagem está incorreto.',
+                4: `Erro de análise do arquivo iftm: a cor ${extra} não está registrada.`,
+                5: `Erro de análise do arquivo iftm: o índice ${extra} deve ser um valor inteiro (>0).`
             },
             'en-US': {
                 0: 'IFTM parsing error: invalid format.',
@@ -43,9 +43,14 @@ class IFTM {
      * builds IFTM as an object to be read by IFTMRenderer
      * raises IFTMTextParseError
      */
-    constructor(textcontent) {
+    constructor(textcontent, errcallback=null) {
         // input textcontent: str
-        this._parseFromText(textcontent);
+        try {
+            this._parseFromText(textcontent);
+        } catch (error) {
+            console.log(error.message);
+            if(errcallback != null) errcallback(error.message);
+        }
     }
     _parseFromText(text) {
         text = text.trimStart();
@@ -144,21 +149,16 @@ function setUpIFTMViewerFromFilepath(file, imgElemId, autoPixelSize=false,
             onreadycallback=null, errcallback=null) {
     const reader = new FileReader();
     reader.onload = (e) => {
-        try {
-            const iftm = new IFTM(e.target.result);
-            const imgElem = document.getElementById(imgElemId);
-            if(autoPixelSize) {
-                const pixelSize = ((iftm.w * iftm.h) < 4096) ? 20 : 1;
-                new IFTMRenderer(iftm, imgElem, pixelSize);
-            }
-            else {
-                new IFTMRenderer(iftm, imgElem);
-            }
-            onreadycallback();
-        } catch(error) {
-            console.error(error);
-            if(errcallback) errcallback(error.message);
+        const iftm = new IFTM(e.target.result, errcallback);
+        const imgElem = document.getElementById(imgElemId);
+        if(autoPixelSize) {
+            const pixelSize = ((iftm.w * iftm.h) < 4096) ? 20 : 1;
+            new IFTMRenderer(iftm, imgElem, pixelSize);
         }
+        else {
+            new IFTMRenderer(iftm, imgElem);
+        }
+        onreadycallback();
     }
     reader.readAsText(file)
 }

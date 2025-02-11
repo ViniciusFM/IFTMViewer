@@ -63,6 +63,14 @@
             color: #007ac7;
             border-bottom: 1px dashed black;
         }
+        #err-message {
+            display: none;
+            text-align: center;
+            color: #fff;
+            font-size: 10pt;
+            background-color: #ff9494;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -75,16 +83,22 @@
     <hr>
     <label for="file-input">Escolha um arquivo IFTM para visualizar:</label>
     <input type="file" id="file-input">
+    <p id="err-message">Err.</p>
     <hr>
     <img id="output-img">
     <script src="static/js/iftmviewer.js"></script>
     <script>
         document.getElementById('file-input').addEventListener('change', (e)=>{
             const file = event.target.files[0];
+            const errmsg = document.getElementById('err-message');
             if(!file) return;
+            errmsg.style.display = 'none';
+            errmsg.innerText = '';
             setUpIFTMViewerFromFilepath(file, 'output-img', true, () => {
-                console.log('hello');
                 document.getElementById('output-img').style.display = 'block';
+            }, (msg) => {
+                errmsg.style.display = 'block';
+                errmsg.innerText = msg;
             });
         });
     </script>
