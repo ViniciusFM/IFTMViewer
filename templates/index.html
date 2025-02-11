@@ -28,16 +28,32 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
-        body {
-            width: 60%;
-            margin: auto;
-            font-family: "Roboto Serif", serif;
-            font-optical-sizing: auto;
-            font-style: normal;
-            line-height: 1.5em;
-            font-variation-settings:
-                "wdth" 100,
-                "GRAD" 0;
+
+        @media only screen and (min-width: 300px) {
+            body {
+                width: 90%;
+                margin: auto;
+                font-family: "Roboto Serif", serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                line-height: 2em;
+                font-variation-settings:
+                    "wdth" 100,
+                    "GRAD" 0;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            body {
+                width: 60%;
+                margin: auto;
+                font-family: "Roboto Serif", serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                line-height: 1.5em;
+                font-variation-settings:
+                    "wdth" 100,
+                    "GRAD" 0;
+            }
         }
         h1 {
             text-align: center;
@@ -53,6 +69,7 @@
             margin: auto;
             padding: 10px;
             margin-top: 32px;
+            max-width: 90%;
         }
         a {
             text-decoration: none;
@@ -88,14 +105,18 @@
     <img id="output-img">
     <script src="static/js/iftmviewer.js"></script>
     <script>
+        const errmsg = document.getElementById('err-message');
+        const outputimg = document.getElementById('output-img');
+        outputimg.src = '/static/img/loading.gif'
         document.getElementById('file-input').addEventListener('change', (e)=>{
             const file = event.target.files[0];
-            const errmsg = document.getElementById('err-message');
             if(!file) return;
             errmsg.style.display = 'none';
             errmsg.innerText = '';
+            outputimg.style.display = 'block';
+            outputimg.src = '/static/img/loading.gif'
             setUpIFTMViewerFromFilepath(file, 'output-img', true, () => {
-                document.getElementById('output-img').style.display = 'block';
+                outputimg.style.display = 'block';
             }, (msg) => {
                 errmsg.style.display = 'block';
                 errmsg.innerText = msg;
