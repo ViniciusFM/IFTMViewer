@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="static/img/smiley.png" />
+    
+    <title>IFTMViewer</title>
+
+    <!-- META SECTION -->
+    <meta name="description" content="Este é um visualizador simples para arquivos com a extensão '.iftm'. Esses arquivos de texto armazenam informações como largura, altura, paleta de cores e mapeamento, auxiliando estudantes de Edição de Imagens na compreensão do processamento digital de arquivos de imagem.">
+    <!-- SEO keywords -->
+    <meta name="keywords" content="IFTMViewer, visualizador de arquivos, edição de imagens, processamento digital, formatos de imagem">
+    <!-- Author -->
+    <meta name="author" content="Vinícius F. Maciel">
+    <!-- Open Graph -->
+    <meta property="og:title" content="IFTMViewer - Visualizador de Arquivos .iftm">
+    <meta property="og:description" content="Explore arquivos '.iftm' com facilidade! Um visualizador simples para estudantes de edição de imagens.">
+    <meta property="og:image" content="https://iftmviewer.viniciusfm.pro.br/static/img/smiley.png">
+    <meta property="og:url" content="https://iftmviewer.viniciusfm.pro.br/">
+    <meta property="og:type" content="website">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="IFTMViewer - Visualizador de Arquivos .iftm">
+    <meta name="twitter:description" content="Explore arquivos '.iftm' com facilidade! Um visualizador simples para estudantes de edição de imagens.">
+    <meta name="twitter:image" content="https://iftmviewer.viniciusfm.pro.br/static/img/smiley.png">
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+        @media only screen and (min-width: 300px) {
+            body {
+                width: 90%;
+                margin: auto;
+                font-family: "Roboto Serif", serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                line-height: 2em;
+                font-variation-settings:
+                    "wdth" 100,
+                    "GRAD" 0;
+            }
+        }
+        @media only screen and (min-width: 768px) {
+            body {
+                width: 60%;
+                margin: auto;
+                font-family: "Roboto Serif", serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+                line-height: 1.5em;
+                font-variation-settings:
+                    "wdth" 100,
+                    "GRAD" 0;
+            }
+        }
+        h1 {
+            text-align: center;
+        }
+        #file-input {
+            display: block;
+            margin: 10px 0px;
+            font-size: 12pt;
+            font-family: "Roboto Serif", serif;
+        }
+        #output-img {
+            display: none;
+            margin: auto;
+            padding: 10px;
+            margin-top: 32px;
+            max-width: 90%;
+        }
+        a {
+            text-decoration: none;
+            color: #004977;
+            font-weight: bold;
+        }
+        a:hover {
+            color: #007ac7;
+            border-bottom: 1px dashed black;
+        }
+        #err-message {
+            display: none;
+            text-align: center;
+            color: #fff;
+            font-size: 10pt;
+            background-color: #ff9494;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>— Image Formatted as Text Map (IFTM) Viewer —</h1>
+    <p style="text-align: justify">Este é um visualizador simples para arquivos com a extensão ".iftm". Esses são arquivos de 
+        texto que armazenam informações como largura, altura, paleta de cores e mapeamento. O formato foi 
+        desenvolvido para auxiliar estudantes de <b>Edição de Imagens</b> na compreensão básica da criação e 
+        do processamento digital de arquivos de imagem. </p>
+    <p style="text-align: center; font-size: 10pt">Acesse o repositório do <a href="https://github.com/ViniciusFM/IFTMViewer" target="_blank">GitHub</a> para saber mais.</p>
+    <hr>
+    <label for="file-input">Escolha um arquivo IFTM para visualizar:</label>
+    <input type="file" id="file-input" accept=".iftm">
+    <p id="err-message">Err.</p>
+    <hr>
+    <img id="output-img">
+    <script src="static/js/iftmviewer.js"></script>
+    <script>
+        const errmsg = document.getElementById('err-message');
+        const outputimg = document.getElementById('output-img');
+        outputimg.src = '/static/img/loading.gif'
+        document.getElementById('file-input').addEventListener('change', (e)=>{
+            const file = event.target.files[0];
+            if(!file) return;
+            errmsg.style.display = 'none';
+            errmsg.innerText = '';
+            outputimg.style.display = 'block';
+            outputimg.src = '/static/img/loading.gif'
+            setUpIFTMViewerFromFilepath(file, 'output-img', true, () => {
+                outputimg.style.display = 'block';
+            }, (msg) => {
+                errmsg.style.display = 'block';
+                errmsg.innerText = msg;
+            });
+        });
+    </script>
+</body>
+</html>
